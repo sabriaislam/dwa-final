@@ -7,7 +7,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
 } from "firebase/auth";
-import Header from "@/app/components/Header";
+import Header from "../app/components/header";
 import firebaseConfig from "@/app/lib/firebaseConfig";
 
 export default function Dashboard({ Component, pageProps }) {
