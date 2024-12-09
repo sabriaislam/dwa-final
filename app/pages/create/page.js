@@ -1,11 +1,11 @@
 import { useEffect } from "react"; 
 import { useRouter } from "next/router"; 
-import CreateUserForm from "@/app/components/CreateUserForm";
-import { useAuth } from "../context/AuthUserContext";
+import CreateUserForm from "@/app/components/CreateUserForm/createUsesrForm";
+import { useAuth } from "../../context/AuthUserContext";
 
 
 
-export default function Create( {createUser} ) {
+export default function CreateUser() {
     const {authUser} = useAuth;
     const router = useRouter(); 
     useEffect(() => {

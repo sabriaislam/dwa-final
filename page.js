@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { useAuth } from "../context/AuthUserContext";
+import { useAuth } from "./app/context/AuthUserContext";
 
 export default function Dashboard() {
     const [posts, setPosts] = useState([]);

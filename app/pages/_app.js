@@ -8,7 +8,7 @@ import {
     signOut,
 } from "firebase/auth";
 import Header from "@/app/components/Header";
-import firebaseConfig from "@/app/components/lib/firebaseConfig";
+import firebaseConfig from "@/app/lib/firebaseConfig";
 
 export default function Dashboard({ Component, pageProps }) {
     const [appInitialized, setAppInitialized] = useState(false);

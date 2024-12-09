@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import CreatePostForm from "../components/CreatePostForm";
+import CreatePostForm from "../components/createPostForm";
 import {useAuth} from "../context/AuthUserContext";
 
 export default function CreatePost() {

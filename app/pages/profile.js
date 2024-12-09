@@ -1,4 +1,4 @@
-import UserProfileCard from "../components/UserProfileCard";
+import UserProfileCard from "../components/userProfileCard"
 
 export default function UserProfilePage() {
     return (
