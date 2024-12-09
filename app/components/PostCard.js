@@ -1,9 +1,9 @@
-const PostCard = ({ post }) => {
+const PostCard = ({ posts }) => {
     return (
         <div>
-            <p>{post.date}</p>
-            <p>{post.displayName}</p>
-            <p>{post.postContent}</p>
+            <p>{posts.timestamp}</p>
+            <p>{posts.displayName}</p>
+            <p>{posts.postContent}</p>
 
         </div>
     );
