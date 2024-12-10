@@ -1,6 +1,6 @@
 import React from "react";
 
-const PostCard = ({ displayName, postContent, timestamp }) => {
+export default function PostCard({ displayName, postContent, timestamp }) {
   const formatDate = (date) => {
     if (!date || !(date instanceof Date)) {
       return "Unknown Date";
@@ -14,11 +14,10 @@ const PostCard = ({ displayName, postContent, timestamp }) => {
 
   return (
     <div>
-      <h3>{displayName || "Anonymous"}</h3>
+      <h3>{displayName}</h3>
       <p>{postContent}</p>
       <p>Posted on: {formatDate(timestamp)}</p>
     </div>
   );
-};
+}
 
-export default PostCard;

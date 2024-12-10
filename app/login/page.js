@@ -1,18 +1,33 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import LoginForm from "@/components/LoginForm";
-import { useAuth } from "../app/context/AuthUserContext";
+"use client";
+import { useCallback } from "react";
+import { useAuth } from "../context/AuthUserContext";
 
-export default function Login() {
-    const {authUser} = useAuth;
-    const router = useRouter(); 
-    useEffect(() => {
-        if (authUser) router.push("/"); 
-    }, [authUser]); 
+export default function LoginForm() {
+  const { signInWithEmailAndPassword, authUser } = useAuth();
+
+  const loginSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const email = e.currentTarget.email.value;
+      const password = e.currentTarget.password.value;
+      return signInWithEmailAndPassword(email, password);
+    },
+    [signInWithEmailAndPassword]
+  );
 
   return (
-    <div>
-      <LoginForm />
+    <div >
+      <h2>Login Form</h2>
+      <form onSubmit={(e) => loginSubmit(e)}>
+        <label htmlFor="email">Email</label>
+        <input type="email" name="email" />
+        
+        <label htmlFor="password">Password</label>
+        <input type="password" name="password" />
+
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
+

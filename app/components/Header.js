@@ -14,7 +14,7 @@ export default function Header() {
           {authUser && (
             <>
               <li>
-                <Link href="/dashboard">Home</Link>
+                <Link href="/">Home</Link>
               </li>
               <li>
                 <a onClick={signOut}>Log out</a>

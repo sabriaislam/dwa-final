@@ -15,7 +15,7 @@ export default function CreateUser() {
 
   useEffect(() => {
     if (authUser) {
-      router.push("/");
+      router.push("/login");
     }
   }, [authUser]);
 
@@ -28,9 +28,7 @@ export default function CreateUser() {
         password
       );
       const user = userCredential.user;
-
       await updateProfile(user, { displayName: name });
-
       await setDoc(doc(db, "users", user.uid), {
         bio: "",
       });
