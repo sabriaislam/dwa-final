@@ -7,14 +7,14 @@ export default function Header() {
     return (
     <header>
       <div>
-        <h1>Users & Auth</h1>
+        <h1>Kiki</h1>
       </div>
       <nav>
         <ul>
           {authUser && (
             <>
               <li>
-                <Link href="/">Home</Link>
+                <Link href="/dashboard">Home</Link>
               </li>
               <li>
                 <a onClick={signOut}>Log out</a>

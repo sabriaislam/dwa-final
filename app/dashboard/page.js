@@ -1,123 +1,51 @@
-import { useCallback, useEffect, useState } from "react";
-import { initializeApp } from "firebase/app";
-import {
-    createUserWithEmailAndPassword,
-    getAuth,
-    onAuthStateChanged,
-    signInWithEmailAndPassword,
-    signOut,
-} from "firebase/auth";
-import Header from "../components/header";
-import firebaseConfig from "@/app/lib/firebaseConfig";
+import { useState, useEffect } from "react";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "../../firebase";
+import PostCard from "../components/PostCard";
 
-export default function Dashboard({ Component, pageProps }) {
-    const [appInitialized, setAppInitialized] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userInformation, setUserInformation] = useState(null);
-    const [error, setError] = useState(null);
+export default function Dashboard() {
+  const [posts, setPosts] = useState([]);
 
-    // Create User
-    const createUser = useCallback(
-        (e) => {
-            e.preventDefault();
-            const email = e.currentTarget.email.value;
-            const password = e.currentTarget.password.value;
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    setIsLoggedIn(true);
-                    setUserInformation(user);
-                    setError(null);
-                })
-                .catch((error) => {
-                    const errorMessage = error.message;
-                    console.warn({ error });
-                    setError(errorMessage);
-                });
-        },
-        [setError, setIsLoggedIn, setUserInformation]
-    );
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const postsQuery = query(
+          collection(db, "posts"),
+          orderBy("timestamp", "desc")
+        );
+        const querySnapshot = await getDocs(postsQuery);
+        const fetchedPosts = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          timestamp: doc.data().timestamp?.toDate() || new Date(),
+        }));
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error("Error fetching posts:", error.message);
+      }
+    };
 
-    // Login User
-    const loginUser = useCallback(
-        (e) => {
-            e.preventDefault();
-            const email = e.currentTarget.email.value;
-            const password = e.currentTarget.password.value;
-            const auth = getAuth();
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    setIsLoggedIn(true);
-                    setUserInformation(user);
-                    setError(null);
-                })
-                .catch((error) => {
-                    const errorMessage = error.message;
-                    console.warn({ error });
-                    setError(errorMessage);
-                });
-        },
-        [setError, setIsLoggedIn, setUserInformation]
-    );
+    fetchPosts();
+  }, []);
 
-    // Logout User
-    const logoutUser = useCallback(() => {
-        const auth = getAuth();
-        signOut(auth)
-            .then(() => {
-                setUserInformation(null);
-                setIsLoggedIn(false);
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                console.warn({ error });
-                setError(errorMessage);
-            });
-    }, [setError, setIsLoggedIn, setUserInformation]);
-
-    // Initialize Firebase App
-    useEffect(() => {
-        initializeApp(firebaseConfig);
-        setAppInitialized(true);
-    }, []);
-
-    // Manage Authentication State
-    useEffect(() => {
-        if (appInitialized) {
-            const auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    setUserInformation(user);
-                    setIsLoggedIn(true);
-                } else {
-                    setUserInformation(null);
-                    setIsLoggedIn(false);
-                }
-                setIsLoading(false);
-            });
-        }
-    }, [appInitialized]);
-
-    if (isLoading) return null;
-
-    // Main Render
-    return (
-        <>
-            <Header/>
-            <main>
-                <Component
-                    {...pageProps}
-                    createUser={createUser}
-                    loginUser={loginUser}
-                    logoutUser={logoutUser}
-                    isLoggedIn={isLoggedIn}
-                    userInformation={userInformation}
-                />
-                {error && <p>Error: {error}</p>}
-            </main>
-        </>
-    );
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <ul>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <li key={post.id}>
+              <PostCard
+                displayName={post.displayName}
+                postContent={post.postContent}
+                timestamp={post.timestamp}
+              />
+            </li>
+          ))
+        ) : (
+          <p>No posts available.</p>
+        )}
+      </ul>
+    </div>
+  );
 }
