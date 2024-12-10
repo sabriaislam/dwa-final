@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthUserContext";
 
 export default function Header() {
     const {signOut, authUser} = useAuth();
-
     return (
     <header>
       <div>
@@ -29,7 +28,7 @@ export default function Header() {
                 <Link href="/login">Login</Link>
               </li>
               <li>
-                <Link href="/create">Create user</Link>
+                <Link href="/createUser">Create user</Link>
               </li>
             </>
           )}
@@ -39,4 +38,3 @@ export default function Header() {
   );
 }
 
-//header from exercise 6

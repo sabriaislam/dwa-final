@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { useAuth } from "../context/AuthUserContext"; 
 import { getFirestore, collection, addDoc } from "firebase/firestore"; 
+import Header from "../components/header"
 
 export default function CreatePostForm() {
     const { authUser } = useAuth(); 

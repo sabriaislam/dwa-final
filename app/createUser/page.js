@@ -4,13 +4,14 @@ import CreateUserForm from "@/app/components/CreateUserForm/createUsesrForm";
 import { useAuth } from "../../context/AuthUserContext";
 
 
-
 export default function CreateUser() {
     const {authUser} = useAuth;
     const router = useRouter(); 
+    
     useEffect(() => {
         if (authUser) router.push("/"); 
     }, [authUser]); 
+    
     return (
         <>
         <main>
